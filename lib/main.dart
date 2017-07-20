@@ -46,18 +46,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+//  int _counter = 0;
+//
+//  void _incrementCounter() {
+//    setState(() {
+//      // This call to setState tells the Flutter framework that
+//      // something has changed in this State, which causes it to rerun
+//      // the build method below so that the display can reflect the
+//      // updated values. If we changed _counter without calling
+//      // setState(), then the build method would not be called again,
+//      // and so nothing would appear to happen.
+//      _counter++;
+//    });
+//  }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that
-      // something has changed in this State, which causes it to rerun
-      // the build method below so that the display can reflect the
-      // updated values. If we changed _counter without calling
-      // setState(), then the build method would not be called again,
-      // and so nothing would appear to happen.
-      _counter++;
-    });
+  void navigateToMenuSelection(String value) {
+    Navigator.of(context).push(new MaterialPageRoute<Null>(
+        builder: (BuildContext context) {
+          return new Scaffold(
+            appBar: new AppBar(title: new Text('Settings Page')),
+            body: new Center(
+              child: new FlatButton(
+                child: new Text('POP'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+        },
+      )
+    );
   }
 
   @override
@@ -74,7 +93,23 @@ class _MyHomePageState extends State<MyHomePage> {
         // was created by the App.build method, and use it to set
         // our appbar title.
         title: new Text(widget.title),
+        actions: <Widget>[
+          new PopupMenuButton<String>(
+            onSelected: navigateToMenuSelection,
+            itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+              const PopupMenuItem<String>(
+                  value: 'Settings',
+                  child: const Text('Settings')
+              ),
+              const PopupMenuItem<String>(
+                  value: 'Show Map',
+                  child: const Text('Show Map')
+              ),
+            ],
+          ),
+        ],
       ),
+
       body: new Center(
         // Center is a layout widget. It takes a single child and
         // positions it in the middle of the parent.
@@ -95,22 +130,22 @@ class _MyHomePageState extends State<MyHomePage> {
           // main axis here is the vertical axis because Columns are
           // vertical (the cross axis would be horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'You have pushed the button this many times:',
-            ),
-            new Text(
-              '${_counter}',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+//          children: <Widget>[
+//            new Text(
+//              'You have pushed the button this many times:',
+//            ),
+//            new Text(
+//              '${_counter}',
+//              style: Theme.of(context).textTheme.display1,
+//            ),
+//          ],
         ),
       ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+//      floatingActionButton: new FloatingActionButton(
+//        onPressed: _incrementCounter,
+//        tooltip: 'Increment',
+//        child: new Icon(Icons.add),
+//      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
