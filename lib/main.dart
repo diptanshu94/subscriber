@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import './settings_page.dart';
 
 void main() {
   runApp(new MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  static SettingsData settingsData;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: <String, WidgetBuilder> {
+        "/settings-page": (BuildContext context) => new SettingsPage()
+      },
     );
   }
 }
@@ -46,37 +51,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-//  int _counter = 0;
-//
-//  void _incrementCounter() {
-//    setState(() {
-//      // This call to setState tells the Flutter framework that
-//      // something has changed in this State, which causes it to rerun
-//      // the build method below so that the display can reflect the
-//      // updated values. If we changed _counter without calling
-//      // setState(), then the build method would not be called again,
-//      // and so nothing would appear to happen.
-//      _counter++;
-//    });
-//  }
 
   void navigateToMenuSelection(String value) {
-    Navigator.of(context).push(new MaterialPageRoute<Null>(
-        builder: (BuildContext context) {
-          return new Scaffold(
-            appBar: new AppBar(title: new Text('Settings Page')),
-            body: new Center(
-              child: new FlatButton(
-                child: new Text('POP'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-          );
-        },
-      )
-    );
+    Navigator.of(context).pushNamed(value);
   }
 
   @override
@@ -98,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onSelected: navigateToMenuSelection,
             itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
               const PopupMenuItem<String>(
-                  value: 'Settings',
+                  value: '/settings-page',
                   child: const Text('Settings')
               ),
               const PopupMenuItem<String>(
