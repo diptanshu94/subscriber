@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import './settings_page.dart';
+import './globals.dart';
 
 void main() {
   runApp(new MyApp());
+  settingsData = new SettingsData();
 }
 
 class MyApp extends StatelessWidget {
-  static SettingsData settingsData;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

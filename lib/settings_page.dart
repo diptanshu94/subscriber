@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './globals.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({ Key key }) : super(key: key);
@@ -7,13 +8,12 @@ class SettingsPage extends StatefulWidget {
   SettingsPageState createState() => new SettingsPageState();
 }
 
-class SettingsData {
-  String hostName;
-  String port;
-}
 
 class SettingsPageState extends State<SettingsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final TextEditingController _hostNameController = new TextEditingController(text: settingsData.hostName);
+  final TextEditingController _portController = new TextEditingController(text: settingsData.port);
+
   bool _autovalidate = false;
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
@@ -23,6 +23,17 @@ class SettingsPageState extends State<SettingsPage> {
       return 'Host Name is required.';
     final RegExp validIpAddressRegex = new RegExp(r'^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$');
     final RegExp validHostnameRegex = new RegExp(r'^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$');
+    if (!value.startsWith("http://") && !value.startsWith("https://")) {
+      return 'Host Name should start with http:// or https://';
+    }
+    if(value.startsWith("http://")) {
+      value = value.replaceFirst("http://", "");
+    } else if (value.startsWith("https://")) {
+      value = value.replaceFirst("https://", "");
+    }
+    if(!validIpAddressRegex.hasMatch(value) && !validHostnameRegex.hasMatch(value)) {
+      return 'Please enter a valid host name.';
+    }
     return null;
   }
 
@@ -67,8 +78,11 @@ class SettingsPageState extends State<SettingsPage> {
                 hintText: 'IP address or FQDN',
                 labelText: 'Host Name *',
               ),
-              onSaved: (String value) {MyApp.settingsData.hostName = value;},
+              onSaved: (String value) {
+                settingsData.hostName = value;
+              },
               validator: _validateHostName,
+              controller: _hostNameController,
             ),
             new TextFormField(
               decoration: const InputDecoration(
@@ -76,6 +90,7 @@ class SettingsPageState extends State<SettingsPage> {
               ),
               keyboardType: TextInputType.number,
               onSaved: (String value) {settingsData.port = value;},
+              controller: _portController,
               validator: _validatePort,
             ),
             new Container(
