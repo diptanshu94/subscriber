@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './globals.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -12,7 +13,7 @@ class SettingsPage extends StatefulWidget {
 class SettingsPageState extends State<SettingsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final TextEditingController _hostNameController = new TextEditingController(text: settingsData.hostName);
-  final TextEditingController _portController = new TextEditingController(text: settingsData.port);
+  final TextEditingController _portController = new TextEditingController(text: settingsData.port.toString());
 
   bool _autovalidate = false;
 
@@ -78,8 +79,10 @@ class SettingsPageState extends State<SettingsPage> {
                 hintText: 'IP address or FQDN',
                 labelText: 'Host Name *',
               ),
-              onSaved: (String value) {
+              onSaved: (String value) async {
                 settingsData.hostName = value;
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('hostname', value);
               },
               validator: _validateHostName,
               controller: _hostNameController,
@@ -89,7 +92,11 @@ class SettingsPageState extends State<SettingsPage> {
                 labelText: 'Port *',
               ),
               keyboardType: TextInputType.number,
-              onSaved: (String value) {settingsData.port = value;},
+              onSaved: (String value) async {
+                settingsData.port = int.parse(value);
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setInt('port', int.parse(value));
+              },
               controller: _portController,
               validator: _validatePort,
             ),

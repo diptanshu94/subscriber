@@ -1,10 +1,10 @@
 class SettingsData {
   String hostName;
-  String port;
+  int port;
 
-  SettingsData() {
-    hostName = 'http://';
-    port = '';
+  SettingsData(String hostName, int port) {
+    this.hostName = hostName;
+    this.port = port;
   }
 }
 

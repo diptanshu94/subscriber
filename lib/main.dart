@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import './settings_page.dart';
 import './globals.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  _init;
   runApp(new MyApp());
-  settingsData = new SettingsData();
+}
+
+_init() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  settingsData.hostName = (preferences.getString('hostname') ?? 'http://');
+  settingsData.port = (preferences.getInt('port') ?? 8080);
 }
 
 class MyApp extends StatelessWidget {
