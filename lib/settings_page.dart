@@ -41,6 +41,10 @@ class SettingsPageState extends State<SettingsPage> {
   String _validatePort(String value) {
     if (value.isEmpty)
       return 'Port is required.';
+    final RegExp validPortRegex = new RegExp(r'^\d+$');
+    if(!validPortRegex.hasMatch(value)) {
+      return 'Please enter a valid port number.';
+    }
     return null;
   }
 
