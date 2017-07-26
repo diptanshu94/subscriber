@@ -4,14 +4,15 @@ import './globals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  _init;
+  _init();
   runApp(new MyApp());
 }
 
 _init() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  settingsData.hostName = (preferences.getString('hostname') ?? 'http://');
-  settingsData.port = (preferences.getInt('port') ?? 8080);
+  String hostName = (preferences.getString('hostname') ?? 'http://');
+  int port = (preferences.getInt('port') ?? 8080);
+  settingsData = new SettingsData(hostName, port);
 }
 
 class MyApp extends StatelessWidget {
