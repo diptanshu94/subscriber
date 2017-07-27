@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './settings_page.dart';
+import './map_page.dart';
 import './globals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,7 +37,8 @@ class MyApp extends StatelessWidget {
       ),
       home: new MyHomePage(title: 'Flutter Demo Home Page'),
       routes: <String, WidgetBuilder> {
-        "/settings-page": (BuildContext context) => new SettingsPage()
+        "/settings-page": (BuildContext context) => new SettingsPage(),
+        "/map-page": (BuildContext context) => new MapPage(),
       },
     );
   }
@@ -65,6 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pushNamed(value);
   }
 
+  void _navigateToMapPage() {
+    const MethodChannel methodChannel = const MethodChannel('com.locationapp/maps');
+    methodChannel.invokeMethod('launchMaps',{"lat": 37.4219999, "long": -122.0840575});
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance
@@ -86,10 +94,6 @@ class _MyHomePageState extends State<MyHomePage> {
               const PopupMenuItem<String>(
                   value: '/settings-page',
                   child: const Text('Settings')
-              ),
-              const PopupMenuItem<String>(
-                  value: 'Show Map',
-                  child: const Text('Show Map')
               ),
             ],
           ),
@@ -127,11 +131,11 @@ class _MyHomePageState extends State<MyHomePage> {
 //          ],
         ),
       ),
-//      floatingActionButton: new FloatingActionButton(
-//        onPressed: _incrementCounter,
-//        tooltip: 'Increment',
-//        child: new Icon(Icons.add),
-//      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: new FloatingActionButton(
+        onPressed: _navigateToMapPage,
+        tooltip: 'Increment',
+        child: new Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

@@ -29,6 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".MapsActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDtr6ox7vPs4srfwBCJ2saRp3s1K9x2WEQ"/>
+
         <service
             android:name=".LocationService"
             android:exported="false" />
