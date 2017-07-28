@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.BasicMessageChannel;
 import io.flutter.plugin.common.StringCodec;
+import io.flutter.plugins.GeneratedPluginRegistrant;
 import io.flutter.view.FlutterMain;
 import io.flutter.view.FlutterView;
 
 /**
  * Created by Diptanshu on 7/27/2017.
  */
-
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
     private FlutterView flutterView;
     private String CHANNEL = "map_channel";
@@ -55,21 +55,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //GeneratedPluginRegistrant.registerWith(this);
 
         String[] args = getArgsFromIntent(getIntent());
         FlutterMain.ensureInitializationComplete(getApplicationContext(), args);
         setContentView(R.layout.maps);
 
-        flutterView = (FlutterView) findViewById(R.id.flutter_view);
-        //flutterView.pushRoute("/map-page");
-        flutterView.runFromBundle(FlutterMain.findAppBundlePath(getApplicationContext()), null);
-        flutterView.pushRoute("/map-page");
-//        SupportMapFragment mapFragment =
-//                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-
-        FlutterActivity flutterActivity = new FlutterActivity();
-        FlutterView flutterView = flutterActivity.createFlutterView(MainActivity);
+        flutterView = new FlutterView(this);//(FlutterView) findViewById(R.id.flutter_view);
+        flutterView.setInitialRoute("/map-page");
+        //flutterView.runFromBundle(FlutterMain.findAppBundlePath(getApplicationContext()), null);
+        //flutterView.setInitialRoute("/map-page");
         messageChannel = new BasicMessageChannel<>(flutterView, CHANNEL, StringCodec.INSTANCE);
         messageChannel.
                 setMessageHandler(new BasicMessageChannel.MessageHandler<String>() {
@@ -90,8 +85,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onDestroy() {
-        flutterView.popRoute();
-        flutterView.destroy();
+        //flutterView.popRoute();
+        //flutterView.destroy();
+        //getFlutterView().popRoute();
         super.onDestroy();
     }
 

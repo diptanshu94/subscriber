@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
 import './settings_page.dart';
 import './map_page.dart';
 import './globals.dart';
@@ -11,6 +12,7 @@ void main() {
 }
 
 _init() async {
+  SharedPreferences.setMockInitialValues({});
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String hostName = (preferences.getString('hostname') ?? 'http://');
   int port = (preferences.getInt('port') ?? 8080);
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
       home: new MyHomePage(title: 'Flutter Demo Home Page'),
       routes: <String, WidgetBuilder> {
         "/settings-page": (BuildContext context) => new SettingsPage(),
-        "/map-page": (BuildContext context) => new MapPage(),
+        "/map-page": (BuildContext context) => new MapPage()
       },
     );
   }
@@ -64,13 +66,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  static const String _channel = "map_channel";
+  static const BasicMessageChannel<String> platform =
+  const BasicMessageChannel<String>(_channel, const StringCodec());
+
   void navigateToMenuSelection(String value) {
     Navigator.of(context).pushNamed(value);
   }
 
   void _nagivateToMapPage() {
-    const MethodChannel methodChannel = const MethodChannel('com.locationapp/maps');
-    methodChannel.invokeMethod('launchMaps',{"lat": 37.4219999, "long": -122.0840575});
+    platform.send("abcd");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    platform.setMessageHandler(_handleMapPlatform);
+  }
+
+  Future<String> _handleMapPlatform(String message) async {
+    return "";
   }
 
   @override
