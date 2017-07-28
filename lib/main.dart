@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pushNamed(value);
   }
 
-  void _navigateToMapPage() {
+  void _nagivateToMapPage() {
     const MethodChannel methodChannel = const MethodChannel('com.locationapp/maps');
     methodChannel.invokeMethod('launchMaps',{"lat": 37.4219999, "long": -122.0840575});
   }
@@ -132,9 +132,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: _navigateToMapPage,
+        onPressed: _nagivateToMapPage,
         tooltip: 'Increment',
-        child: new Icon(Icons.add),
+        child: new Icon(Icons.map),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

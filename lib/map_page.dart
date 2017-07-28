@@ -21,6 +21,7 @@ class _MapPageState extends State<MapPage> {
     platform.setMessageHandler(_handleMapMessages);
     platform.send("abcd");
     print("calledmapactivity");
+    print("Messagechannel1" + platform.name);
   }
 
   Future<String> _handleMapMessages(String message) async {

@@ -30,7 +30,6 @@ public class MainActivity extends FlutterActivity {
             new MethodChannel.MethodCallHandler() {
               @Override
               public void onMethodCall(MethodCall call, MethodChannel.Result result) {
-                Log.v("BundlePath1", FlutterMain.findAppBundlePath(getApplicationContext()));
                 if (call.method.equals("launchMaps")) {
                   Intent i = new Intent(MainActivity.this, MapsActivity.class);
                   i.putExtra("lat", (double)call.argument("lat"));
